@@ -19,10 +19,14 @@ class RssViewModel @Inject constructor(private val rssServiceImpl: RssServiceImp
         viewModelScope.launch {
             try {
                 _rssfeeds.value = RssFeedState.Loading
-                val response = rssServiceImpl.fetchRssFeeds("https://chriscoyier.net/feed/")
+
+                val response = rssServiceImpl.fetchRssFeeds("https://mikewatkins.dev/rss.xml")
+
                 _rssfeeds.value = RssFeedState.Success(response)
+
             } catch (error: Exception) {
                 _rssfeeds.value = RssFeedState.Error(error)
+
             }
         }
     }

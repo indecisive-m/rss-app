@@ -13,8 +13,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.rss_app.ui.theme.RssappTheme
+import com.example.rss_app.ui.viewmodels.RssFeedState
 import com.example.rss_app.ui.viewmodels.RssViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,14 +33,31 @@ class MainActivity : ComponentActivity() {
 
         viewModel.fetchRssFeedsFromRssServiceImpl()
 
-        lifecycleScope.launch {
-            viewModel.rssfeeds.collect { state ->
-                Log.d(
-                    "RSS_DEBUG",
-                    "State: $state"
-                )
+        lifecycleScope.launch() {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.rssfeeds.collect { state ->
+
+                    when (state) {
+                        is RssFeedState.Success -> Log.d(
+                            "TEST",
+                            "RSS Feed State: ${state.data.channel?.title}"
+                        )
+
+                        is RssFeedState.Loading -> Log.d(
+                            "TEST",
+                            "Loading"
+                        )
+
+                        else -> Log.d(
+                            "TEST",
+                            "Error"
+                        )
+                    }
+
+                }
             }
         }
+
 
         setContent {
             RssappTheme {
