@@ -25,7 +25,7 @@ object KtorModule {
         return HttpClient {
             install(Logging) {
                 logger = Logger.ANDROID
-                level = LogLevel.BODY
+                level = LogLevel.ALL
             }
             install(ContentNegotiation) {
                 xml()

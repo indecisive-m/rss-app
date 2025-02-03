@@ -10,12 +10,20 @@ import javax.inject.Inject
 class RssServiceImpl @Inject constructor(private val httpClient: HttpClient) : RssService {
     override suspend fun fetchRssFeeds(url: String): RssResponse {
 
-
+        val xmlParser = XML {
+            defaultPolicy {
+                ignoreNamespaces()
+                ignoreUnknownChildren()
+                autoPolymorphic = true
+            }
+        }
         val response = httpClient.get(url)
             .bodyAsText()
 
-
-        val rssResponse = XML.decodeFromString<RssResponse>(response)
+        val rssResponse = xmlParser.decodeFromString(
+            RssResponse.serializer(),
+            response
+        )
 
         return rssResponse
 

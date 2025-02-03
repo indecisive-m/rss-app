@@ -1,74 +1,90 @@
 package com.example.rss_app
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.rss_app.data.models.RssResponse
 import com.example.rss_app.ui.theme.RssappTheme
 import com.example.rss_app.ui.viewmodels.RssFeedState
 import com.example.rss_app.ui.viewmodels.RssViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: RssViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        viewModel.fetchRssFeedsFromRssServiceImpl()
-
-        lifecycleScope.launch() {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.rssfeeds.collect { state ->
-
-                    when (state) {
-                        is RssFeedState.Success -> Log.d(
-                            "TEST",
-                            "RSS Feed State: ${state.data.channel?.title}"
-                        )
-
-                        is RssFeedState.Loading -> Log.d(
-                            "TEST",
-                            "Loading"
-                        )
-
-                        else -> Log.d(
-                            "TEST",
-                            "Error"
-                        )
-                    }
-
-                }
-            }
-        }
-
-
         setContent {
             RssappTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    RSSFeedScreen(innerPadding)
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun RSSFeedScreen(
+    paddingValues: PaddingValues,
+    viewModel: RssViewModel = hiltViewModel()
+) {
+
+    val rssFeedState by viewModel.rssFeeds.collectAsState()
+
+    when (val state = rssFeedState) {
+        is RssFeedState.Loading -> Loading()
+        is RssFeedState.Error -> Error()
+        is RssFeedState.Success -> Successful(state.data)
+    }
+
+}
+
+@Composable
+fun Loading() {
+    CircularProgressIndicator(
+        modifier = Modifier.width(64.dp),
+        color = MaterialTheme.colorScheme.secondary,
+        trackColor = MaterialTheme.colorScheme.surfaceVariant,
+    )
+}
+
+@Composable
+fun Error() {
+    Text(
+        text = "shit bruv"
+    )
+}
+
+@Composable
+fun Successful(state: RssResponse) {
+    Column {
+        Text(
+            text = state.channel?.title.toString()
+        )
+        Text(
+            text = state.channel?.description.toString()
+        )
     }
 }
 
