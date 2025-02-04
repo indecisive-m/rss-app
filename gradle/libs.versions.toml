@@ -15,6 +15,7 @@ kotlinxCore = "1.8.0"
 xmlUtilCore = "0.90.3"
 viewModelCompose = "2.8.7"
 hiltNavigation = "1.2.0"
+coil = "3.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -44,6 +45,10 @@ ktor-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation",
 slf4j-android = { module = "org.slf4j:slf4j-android", version.ref = "slf4jVersion" }
 kotlinx-serialization-core = { module = "org.jetbrains.kotlinx:kotlinx-serialization-core", version.ref = "kotlinxCore" }
 xmlutil-core = { module = "io.github.pdvrieze.xmlutil:core", version.ref = "xmlUtilCore" }
+coil = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-images = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+
+
 
 
 [plugins]

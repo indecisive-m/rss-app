@@ -72,6 +72,8 @@ dependencies {
     implementation(libs.ktor.content.negotiation)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.coil)
+    implementation(libs.coil.network.images)
     kapt(libs.hilt.compiler)
 }
 
