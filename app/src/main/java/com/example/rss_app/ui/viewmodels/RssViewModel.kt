@@ -1,5 +1,6 @@
 package com.example.rss_app.ui.viewmodels
 
+import androidx.core.text.parseAsHtml
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rss_app.data.network.RssServiceImpl
@@ -26,9 +27,15 @@ class RssViewModel @Inject constructor(private val rssServiceImpl: RssServiceImp
             try {
                 _rssFeeds.value = RssFeedState.Loading
 
-                val response = rssServiceImpl.fetchRssFeeds("https://mikewatkins.dev/rss.xml")
+                val response = rssServiceImpl.fetchRssFeeds(
+                    "https://mikewatkins.dev/rss.xml"
 
-//                "https://chriscoyier.net/feed/"
+                )
+
+
+                // "https://chriscoyier.net/feed/"
+
+
                 _rssFeeds.value = RssFeedState.Success(response)
 
             } catch (error: Exception) {
@@ -36,5 +43,12 @@ class RssViewModel @Inject constructor(private val rssServiceImpl: RssServiceImp
 
             }
         }
+    }
+
+
+    private fun parseHTML(string: String?): String {
+
+        return string?.parseAsHtml()
+            .toString()
     }
 }
