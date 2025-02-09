@@ -4,20 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.example.rss_app.data.models.RssItem
 import com.example.rss_app.ui.screens.HomeScreen
-import com.example.rss_app.ui.theme.RssappTheme
+import com.example.rss_app.ui.theme.RssAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,21 +19,15 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
 
-
-
         setContent {
-            RssappTheme {
-                Scaffold { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding)
-                            .consumeWindowInsets(innerPadding),
-
-                        )
-                }
+            RssAppTheme {
+                HomeScreen(
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
             }
         }
     }
@@ -65,17 +52,11 @@ class MainActivity : ComponentActivity() {
 //
 //}
 
-@Composable
-fun Loading() {
-    CircularProgressIndicator(
-        modifier = Modifier.width(64.dp),
-        color = MaterialTheme.colorScheme.secondary,
-        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-    )
-}
 
 @Composable
-fun Error() {
+fun Error(
+    modifier: Modifier = Modifier
+) {
     Text(
         text = "shit bruv"
     )

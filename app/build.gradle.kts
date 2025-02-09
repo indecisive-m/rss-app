@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.hilt.navigation.compose)
     implementation(libs.coil)
     implementation(libs.coil.network.images)
+    implementation(libs.google.fonts)
     kapt(libs.hilt.compiler)
 }
 

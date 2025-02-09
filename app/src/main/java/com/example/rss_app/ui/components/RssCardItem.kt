@@ -10,20 +10,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.text.parseAsHtml
 import coil3.compose.AsyncImage
 import com.example.rss_app.data.models.RssItem
+import com.example.rss_app.ui.theme.bodyFontFamily
 
 @Composable
 fun RssCardItem(
@@ -41,8 +41,8 @@ fun RssCardItem(
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(16.dp))
-            .background(Color.LightGray)
             .height(150.dp)
+            .background(MaterialTheme.colorScheme.primaryContainer)
     ) {
         Row(
             modifier = Modifier,
@@ -72,18 +72,22 @@ fun RssCardItem(
             ) {
                 Text(
                     text = rssItem.title.toString(),
-                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
-
+                    maxLines = 2,
+                    fontFamily = bodyFontFamily,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
                 Spacer(modifier.height(8.dp))
                 Text(
                     text = decode.toString(),
-                    fontSize = 14.sp,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
+                    maxLines = 2,
+                    fontFamily = bodyFontFamily,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+
 
                 )
             }

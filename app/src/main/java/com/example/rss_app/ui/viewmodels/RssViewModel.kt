@@ -28,12 +28,10 @@ class RssViewModel @Inject constructor(private val rssServiceImpl: RssServiceImp
                 _rssFeeds.value = RssFeedState.Loading
 
                 val response = rssServiceImpl.fetchRssFeeds(
-                    "https://mikewatkins.dev/rss.xml"
+                    "https://chriscoyier.net/feed/"
 
                 )
-
-
-                // "https://chriscoyier.net/feed/"
+                // "https://mikewatkins.dev/rss.xml"
 
 
                 _rssFeeds.value = RssFeedState.Success(response)
